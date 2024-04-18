@@ -55,7 +55,8 @@ def get_wind_direction(degrees):
 
 def request_weather(location):
     api_key = "a63d18c496d1634e8b62e88c148e8f90"
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}"
+    lang = "nl"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={api_key}&lang={lang}"
    
     response = urllib.request.urlopen(url)
      
