@@ -2,7 +2,7 @@ import urllib.request
 import json
 from urllib.error import HTTPError
 
-# input voor de locatie
+# function for the input of the weather app
 def request_location():
     while True:
         location = input('Voer een postcode of plaatsnaam in: ').strip().replace(" ","+")  # Remove leading/trailing whitespace
@@ -11,7 +11,6 @@ def request_location():
             continue
         elif location.isdigit():
             PostalCode = location
-            print(PostalCode)
             city = converter(PostalCode)
             if city:
                 break
@@ -19,14 +18,13 @@ def request_location():
                 print("Error: Kan de stad niet vinden op basis van de opgegeven postcode.")
         else:
             city = location
-            print(city)
             break
 
     return city
 
 
-# omzeting van postcode naar hoofdstad
-# ook error handeling toegevoegd met try en kijken of het 200(ok) is.
+# converter used for postalcode to make them a city
+# also has error handeling aswell as a check for code 200 (ok)
 def converter(postal_code):
     url = f"http://opzoeken-postcode.be/{postal_code}.json"
     try:
@@ -47,7 +45,7 @@ def converter(postal_code):
         return None
 
 
-# Voeg deze functie toe om de windrichting te berekenen
+# function to calculate the wind directions and show them
 def get_wind_direction(degrees):
     directions = ["N", "N/NE", "NE", "E/NE", "E", "E/SE", "SE", "S/SE", "S", "S/SW", "SW", "W/SW", "W", "W/NW", "NW", "N/NW"]
     index = round((degrees % 360) / (360. / len(directions)))
@@ -62,11 +60,11 @@ def request_weather(location):
      
     if response.status == 200:
         response_json = response.read()
-        parsed_json = json.loads(response_json)   #json omzetten
+        parsed_json = json.loads(response_json)   #json converter
        
-        weather_dict = {}   #Dictionary om nodige info in te bewaren
+        weather_dict = {}   #Directory to save all necesary information
            
-        #Data aan weather_dict toevoegen met bepaalde key , value komt uit het parsed_json obj
+        #add data to weather_dict with certain key , value from the parsed_json obj
         weather_dict["temp"]= parsed_json.get("main").get("temp")
         weather_dict["temp_min"]= parsed_json.get("main").get("temp_min")
         weather_dict["temp_max"]= parsed_json.get("main").get("temp_max")
@@ -92,7 +90,7 @@ def main():
                 print(f"HTTP Error: {e.code} - {e.reason}")
  
    
-    temp_celsius = round(weather_json.get("temp") - 273.15) # Alle temperaturen van Kelvin naar Celsius omzetten
+    temp_celsius = round(weather_json.get("temp") - 273.15) # all tempatures from Kelvin to Celsius
     temp_celsius_max = round(weather_json.get("temp_max") - 273.15)
     temp_celsius_min = round(weather_json.get("temp_min") - 273.15)
     wind_speed_mps = weather_json.get('wind').get('speed')
@@ -101,7 +99,7 @@ def main():
     wind_degree = weather_json.get('wind').get('deg')
     humidity = weather_json.get("humidity")
    
-    #Wind degrees omzetten naar windrichting
+    #Wind degrees to  wind direction
     wind_direction = get_wind_direction(wind_degree)
      
     print(f"\nWeersomschrijving: {weather_json.get('desc')}\nTemperatuur: {temp_celsius} graden Celsius \nMax temperatuur: {temp_celsius_max} graden Celsius\nMin temperatuur: {temp_celsius_min} graden Celsius\nWind: {wind_speed} {wind_direction}\nLuchtvochtigheid: {humidity}%\n")
