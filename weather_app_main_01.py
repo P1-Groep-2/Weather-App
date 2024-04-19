@@ -5,7 +5,7 @@ from urllib.error import HTTPError
 # function for the input of the weather app
 def request_location():
     while True:
-        location = input('Voer een postcode of plaatsnaam in: ').strip().replace(" ","+")  # Remove leading/trailing whitespace
+        location = input('Voer een postcode of plaatsnaam in: ').strip().replace(" ","+")  # Remove whitespace
         if not location:
             print("Error: Voer alstublieft een geldige postcode of plaatsnaam in.")
             continue
