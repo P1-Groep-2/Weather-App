@@ -35,13 +35,13 @@ def converter(postal_code):
                 city = data[0]["Postcode"]["naam_hoofdgemeente"]
                 return city
             else:
-                print("Error: No data found for the postal code.")
+                print("Error: geen data gevonden voor de postal code.")
                 return None
         else:
             print(f"Error: {response.status} - {response.reason}")
             return None
     except Exception as e:
-        print(f"An error occurred while fetching data: {e}")
+        print(f"een error gebeurd voor het opvangen van de data: {e}")
         return None
 
 
